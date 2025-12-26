@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your AI Assistant Is Lying to You: A Governance Framework</title>
+    <meta name="author" content="Adeel Ahmad">
+    <meta name="description" content="Why I treat my AI like a rogue junior engineer. A forensic engineering framework for the agentic era.">
+
+    <meta property="og:title" content="Your AI Assistant Is Lying to You: The Governance Framework">
+    <meta property="og:description" content="The 2 AM wake-up call that changed how we engineer with AI. Download the MOP inside.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+    
+    <style>
+        :root {
+            /* Palette: LinkedIn Professional + Alarm Accents */
+            --bg-body: #f3f2ef; /* LinkedIn BG */
+            --bg-card: #ffffff;
+            --text-main: #191919;
+            --text-muted: #666666;
+            --brand-linkedin: #0a66c2;
+            
+            --accent-alert: #d93025; /* Urgent Red */
+            --accent-warning: #b24020; /* Deep Orange */
+            --accent-success: #057642; /* LinkedIn Green */
+            --accent-tech: #0f172a; /* Code Slate */
+
+            --font-sans: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+        }
+
+        /* RESET */
+        * { box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-body); color: var(--text-main); line-height: 1.75; margin: 0; padding: 0; }
+        .container { max-width: 750px; margin: 30px auto; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; }
+        
+        /* LINKEDIN STYLE HOOK */
+        .linkedin-hook { background: #1e1e1e; color: white; padding: 40px; text-align: center; position: relative; }
+        .badge-hot { background: var(--accent-alert); color: white; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 15px; }
+        .hook-title { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; }
+        .hook-subtitle { font-size: 1.2rem; color: #a3a3a3; font-weight: 300; margin-bottom: 30px; }
+        
+        .engagement-metrics { display: flex; justify-content: center; gap: 30px; border-top: 1px solid #333; padding-top: 20px; }
+        .metric-box { text-align: center; }
+        .metric-num { display: block; font-size: 1.8rem; font-weight: bold; color: var(--accent-alert); }
+        .metric-lbl { font-size: 0.8rem; color: #888; text-transform: uppercase; }
+
+        /* CONTENT PADDING */
+        .content { padding: 40px; }
+
+        /* TYPOGRAPHY */
+        h2 { font-size: 1.8rem; color: var(--accent-tech); margin: 50px 0 25px; border-bottom: 2px solid #f3f2ef; padding-bottom: 10px; }
+        h3 { font-size: 1.4rem; color: var(--accent-tech); margin: 30px 0 15px; }
+        p { margin-bottom: 1.5em; font-size: 1.1rem; }
+        
+        /* STORY ELEMENTS */
+        .story-card { background: #fff5f5; border-left: 4px solid var(--accent-alert); padding: 25px; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .dialogue-box { margin: 15px 0; display: flex; gap: 15px; }
+        .speaker { font-weight: bold; min-width: 60px; font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); }
+        .quote { font-style: italic; color: var(--text-main); background: white; padding: 10px 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); width: 100%; }
+
+        /* TECHNICAL TABLES */
+        .debt-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 0.95rem; }
+        .debt-table th { background: var(--accent-tech); color: white; padding: 12px; text-align: left; }
+        .debt-table td { border-bottom: 1px solid #eee; padding: 12px; vertical-align: top; }
+        .multiplier-bad { color: var(--accent-alert); font-weight: bold; }
+        .multiplier-crit { background: var(--accent-alert); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+
+        /* REAL FAQ STYLE */
+        .faq-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .faq-q { background: var(--accent-tech); color: white; padding: 15px 20px; font-weight: 600; font-size: 1rem; }
+        .faq-a { padding: 20px; }
+        .faq-truth { font-weight: bold; color: var(--accent-alert); }
+
+        /* TERMINAL / CODE */
+        .code-display { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; margin: 25px 0; border-left: 5px solid var(--brand-linkedin); overflow-x: auto; }
+        .prompt { color: #22c55e; margin-right: 10px; }
+
+        /* INTERACTIVE POLL SIMULATION */
+        .poll-container { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 25px; margin: 40px 0; }
+        .poll-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; }
+        .poll-option { background: #f3f2ef; padding: 12px 15px; border-radius: 4px; margin-bottom: 10px; cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
+        .poll-option:hover { background: #ebebeb; border-color: #ccc; }
+        .poll-bar { height: 100%; background: #d1e4f5; position: absolute; left: 0; top: 0; z-index: -1; border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+        .poll-percent { font-weight: bold; color: var(--brand-linkedin); display: none; }
+
+        /* CTA STACK */
+        .cta-stack { background: #eef3f8; border-top: 4px solid var(--brand-linkedin); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-list { list-style: none; padding: 0; margin: 20px 0; text-align: left; display: inline-block; }
+        .cta-list li { margin-bottom: 10px; font-size: 1.1rem; }
+        .btn-download { display: inline-block; background: var(--brand-linkedin); color: white; padding: 15px 40px; border-radius: 30px; font-weight: bold; text-decoration: none; margin-top: 20px; font-size: 1.1rem; transition: transform 0.2s; }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3); }
+
+        /* AUTHOR FOOTER */
+        .author-footer { display: flex; align-items: center; gap: 15px; margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee; }
+        .author-img { width: 60px; height: 60px; border-radius: 50%; background: var(--accent-tech); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        
+        @media(max-width: 600px) {
+            .hook-title { font-size: 1.8rem; }
+            .engagement-metrics { flex-direction: column; gap: 10px; }
+            .dialogue-box { flex-direction: column; gap: 5px; }
+            .quote { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="linkedin-hook">
+        <span class="badge-hot">🔥 Hot Take</span>
+        <h1 class="hook-title">Your AI Assistant Is Lying to You</h1>
+        <p class="hook-subtitle">And the cost isn't just technical debt—it's organizational trauma.</p>
+        
+        <div class="engagement-metrics">
+            <div class="metric-box">
+                <span class="metric-num">3,200</span>
+                <span class="metric-lbl">Hours Wasted</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-num">$47k</span>
+                <span class="metric-lbl">Cloud Overrun</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-num">1</span>
+                <span class="metric-lbl">Engineer Quit</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <p><strong>The smell of burnt coffee and ozone</strong> hit me before I even reached the NOC. It was 02:14 AM.</p>
+        <p>The junior dev—let's call him Mark—was staring at the dashboard like it was a flatlining EKG. His eyes were red. He'd been awake for 28 hours chasing an AI-generated rabbit hole.</p>
+
+        <div class="story-card">
+            <div class="dialogue-box">
+                <div class="speaker">Mark:</div>
+                <div class="quote">"It was working in the sandbox. The AI said it understood the compliance requirements. We tested in staging."</div>
+            </div>
+            <div class="dialogue-box">
+                <div class="speaker">Me:</div>
+                <div class="quote">"Show me the change log."</div>
+            </div>
+            <div class="dialogue-box">
+                <div class="speaker">Mark:</div>
+                <div class="quote">"It's... in the chat history somewhere. I think there were 3 versions?"</div>
+            </div>
+        </div>
+
+        <p>I didn't care about the chat history. <strong>I cared about evidence.</strong></p>
+        <p>We weren't dealing with a coding error. We were dealing with <strong>Epistemic Collapse</strong>. We had treated the AI like a magic wand instead of a rogue junior engineer.</p>
+
+        <h2>The Real Cost of "Shadow AI"</h2>
+        <p>When I analyzed the wreckage, I found a new kind of technical debt. It wasn't just messy code; it was hallucinated architecture.</p>
+
+        <table class="debt-table">
+            <thead>
+                <tr>
+                    <th>Debt Type</th>
+                    <th>Traditional</th>
+                    <th>AI-Generated</th>
+                    <th>Multiplier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Architectural</strong></td>
+                    <td>Monolith -> Microservices</td>
+                    <td>No-Architecture / Chat-First</td>
+                    <td class="multiplier-bad">3x Worse</td>
+                </tr>
+                <tr>
+                    <td><strong>Documentation</strong></td>
+                    <td>Outdated README</td>
+                    <td>Hallucinated APIs</td>
+                    <td class="multiplier-crit">10x Dangerous</td>
+                </tr>
+                <tr>
+                    <td><strong>Security</strong></td>
+                    <td>Weak Passwords</td>
+                    <td>Hardcoded Keys in Chat</td>
+                    <td class="multiplier-crit">Career Ending</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>The Solution: Governance as Code</h2>
+        <p>I realized we didn't need better prompts. We needed a <strong>Method of Procedure (MOP)</strong>. I built a PowerShell framework (`install_global.ps1`) that enforces strict ITIL principles on the AI.</p>
+
+        <div class="code-display">
+<span class="prompt">$</span> AI Agent: "Checking WORKLOG... Previous fix by Adeel on 2025-01-20"
+<span class="prompt">></span> Impact Assessment: "Database connection pool; affects 15% of users."
+<span class="prompt">></span> Plan: "Adjust timeout 30s -> 45s. Verify with monitoring."
+<span class="prompt">></span> Result: Incident resolved in 43 minutes. No escalation.
+        </div>
+
+        <h2>The Questions My CISO Actually Asked</h2>
+        
+        <div class="faq-card">
+            <div class="faq-q">"When this AI writes code that leaks PII, who goes to jail? Me or the AI?"</div>
+            <div class="faq-a">
+                <span class="faq-truth">Reality: You do.</span> The AI has no legal personhood. My framework creates the <code>WORKLOG.md</code> audit trail that might keep you out of court.
+            </div>
+        </div>
+
+        <div class="faq-card">
+            <div class="faq-q">"Our auditors laughed at our PDF policy. How do we prove control?"</div>
+            <div class="faq-a">
+                <span class="faq-truth">Solution:</span> The framework generates machine-readable artifacts. Running <code>git log --grep="AI-CHANGE"</code> produces a legally defensible audit trail.
+            </div>
+        </div>
+
+        <div class="poll-container">
+            <div class="poll-title">🎯 Quick Poll: Which AI failure hurts your team the most?</div>
+            <div class="poll-option" onclick="vote(this, '64%')">
+                <span>🔴 Production Hallucinations</span>
+                <span class="poll-percent">64%</span>
+                <div class="poll-bar"></div>
+            </div>
+            <div class="poll-option" onclick="vote(this, '22%')">
+                <span>🟡 Context Drift Mid-Project</span>
+                <span class="poll-percent">22%</span>
+                <div class="poll-bar"></div>
+            </div>
+            <div class="poll-option" onclick="vote(this, '14%')">
+                <span>🟢 Digital Bloat & Cleanup</span>
+                <span class="poll-percent">14%</span>
+                <div class="poll-bar"></div>
+            </div>
+        </div>
+
+        <div class="cta-stack">
+            <h2>👇 If you've been burned by AI "assistance":</h2>
+            <ul class="cta-list">
+                <li>💬 <strong>Comment</strong> "Been there" below</li>
+                <li>🏷️ <strong>Tag</strong> a manager who needs to see this</li>
+                <li>♻️ <strong>Repost</strong> to save a junior dev's weekend</li>
+            </ul>
+            
+            <p style="margin-top: 30px;"><strong>Want the actual code?</strong> Not just a whitepaper.</p>
+            <a href="#" class="btn-download">⬇️ Download Framework (install_global.ps1)</a>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Includes: MOP, Forensic Logging, and Hardware Protocol.</p>
+        </div>
+
+        <div class="author-footer">
+            <div class="author-img">AA</div>
+            <div>
+                <strong>Adeel Ahmad</strong><br>
+                <span style="font-size: 0.9rem; color: #666;">Telecom Veteran (2008) | Forensic Incident Manager</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function vote(element, percent) {
+        // Reset all
+        document.querySelectorAll('.poll-option').forEach(el => {
+            el.style.background = '#f3f2ef';
+            el.querySelector('.poll-percent').style.display = 'none';
+        });
+
+        // Activate clicked
+        element.style.background = '#e6f0fa';
+        element.querySelector('.poll-percent').style.display = 'block';
+        
+        // Simulate real LinkedIn poll interaction
+        setTimeout(() => {
+            alert("Thanks for voting! This helps us understand the industry impact.");
+        }, 100);
+    }
+</script>
+
+</body>
+</html>
